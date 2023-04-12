@@ -14,12 +14,13 @@ protocol LocationServiceProtocol {
 }
 
 class LocationService: BaseService, LocationServiceProtocol {
-    
+    let appService = AppServices.locationSearch
     func searchLocation(searchText: String,
                         limit: Int,
                         completion: @escaping (Result<SearchDataModel, NetworkError>) -> Void) {
         
-        guard let url = URL(string: locationBaseURL + "direct?q=\(searchText)&limit=\(limit)&appid=\(key)") else {
+        // We can use here URLComponents and take foloowing fields as parameters.
+        guard let url = URL(string: baseURL + appService.path + "?q=\(searchText)&limit=\(limit)&appid=\(key)") else {
             completion(.failure(.apiError))
             return
         }
@@ -38,7 +39,6 @@ class LocationService: BaseService, LocationServiceProtocol {
     
     func getLocationData(city: [City]) -> SearchDataModel {
         return SearchDataModel(cities: city)
-        
     }
 }
 

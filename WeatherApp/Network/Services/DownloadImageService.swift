@@ -21,13 +21,15 @@ protocol DownloadImageServiceProtocol {
 }
 
 class DownloadImageService: BaseService, DownloadImageServiceProtocol {
+    let appService = AppServices.imageData
     func getImage(name: String, completion: @escaping (Result<WeatherIconModel, NetworkError>) -> Void) {
         
-        guard let url = URL(string: iconBaseURL + "\(name)@2x.png") else {
+        guard let url = URL(string: iconBaseURL + appService.path + "\(name)@2x.png") else {
             completion(.failure(.apiError))
             return
         }
         
+        ///get Image from Cache if exist
         if let image = CacheManager.shared.get(name: url.absoluteString) {
             completion(.success(WeatherIconModel(icon: image)))
             return
@@ -39,6 +41,9 @@ class DownloadImageService: BaseService, DownloadImageServiceProtocol {
                 return
             }
             if let image = UIImage(data: data) {
+                
+                ///Store Image In Cache
+                
                 CacheManager.shared.add(image: image, name: url.absoluteString)
                 completion(.success(WeatherIconModel(icon: image)))
             } else {

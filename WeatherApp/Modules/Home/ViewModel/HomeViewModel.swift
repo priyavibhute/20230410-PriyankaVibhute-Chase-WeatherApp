@@ -51,6 +51,8 @@ class HomeViewModel {
         selectedCity = city
     }
     
+    /// Get the weather data based on logitude, latitude of city provided
+    
     func fetchCurrentWeather() {
         fetchWeatherWithCoordinates()
         if let selectedCity = selectedCity {

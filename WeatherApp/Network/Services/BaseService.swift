@@ -7,11 +7,31 @@
 
 import Foundation
 
+enum AppServices {
+    case locationSearch
+    case weatherData
+    case imageData
+}
+
+extension AppServices {
+    var path: String {
+        switch self {
+        case .locationSearch:
+            return "/geo/1.0/direct"
+        case .weatherData:
+            return "/data/2.5/weather"
+        case .imageData:
+            return "/img/wn/"
+        }
+    }
+    
+    // We can add more request data here.
+}
+
 class BaseService {
     let key = "33f892d964e11154a771d243fc25f14a"
-    let weatherBaseURL = "https://api.openweathermap.org/data/2.5/"
-    let iconBaseURL = "https://openweathermap.org/img/wn/"
-    let locationBaseURL = "https://api.openweathermap.org/geo/1.0/"
+    let baseURL = "https://api.openweathermap.org"
+    let iconBaseURL = "https://openweathermap.org"
     
     let urlSession: URLSession
     let apiService: APIService

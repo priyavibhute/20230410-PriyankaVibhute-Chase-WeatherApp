@@ -10,7 +10,7 @@ import MapKit
 import CoreLocation
 
 class HomeViewController: UIViewController, CoordinatorBoard {
-
+    
     @IBOutlet weak var sunset: UILabel!
     @IBOutlet weak var pressure: UILabel!
     @IBOutlet weak var wind: UILabel!
@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, CoordinatorBoard {
     var viewModel: HomeViewModel?
     
     let locationManager = CLLocationManager()
-    
+    // Use Localisations for strings
     override func viewDidLoad() {
         super.viewDidLoad()
         getUserLocation()
@@ -50,11 +50,11 @@ class HomeViewController: UIViewController, CoordinatorBoard {
     func setUpView()  {
         viewModel?.fetchCurrentWeather()
     }
-
+    
     @IBAction func searchLocation(_ sender: Any) {
         viewModel?.launchSearchViewController()
     }
-
+    
 }
 
 extension HomeViewController: HomeViewProtocol {

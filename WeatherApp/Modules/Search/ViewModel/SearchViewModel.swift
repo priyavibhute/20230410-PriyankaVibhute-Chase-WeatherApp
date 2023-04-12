@@ -19,6 +19,8 @@ class SearchViewModel {
         self.searchCoordinator = searchCoordinator
     }
     
+    ///Get list of cities to check the weather inforamtion
+    
     func searchLocation(text: String, onCompletion: @escaping (Result<Bool, NetworkError>) -> Void) {
         locationService?.searchLocation(searchText: text,
                                         limit: 15,

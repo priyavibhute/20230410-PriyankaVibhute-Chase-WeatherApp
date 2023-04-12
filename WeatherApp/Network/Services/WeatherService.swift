@@ -15,11 +15,12 @@ protocol WeatherServiceProtocol {
 
 class WeatherService: BaseService, WeatherServiceProtocol {
     var homeModel: HomeModel?
+    let appService = AppServices.weatherData
     func getWeatherData(latitude: Double,
                         longitude: Double,
                         completion: @escaping (Result<HomeModel, NetworkError>) -> Void) {
-        
-        guard let url = URL(string: weatherBaseURL + "weather?lat=\(latitude)&lon=\(longitude)&appid=\(key)&units=metric") else {
+        // We can use here URLComponents and take foloowing fields as parameters. 
+        guard let url = URL(string: baseURL + appService.path + "?lat=\(latitude)&lon=\(longitude)&appid=\(key)&units=metric") else {
             completion(.failure(.apiError))
             return
         }
@@ -46,15 +47,15 @@ class WeatherService: BaseService, WeatherServiceProtocol {
            let weather = currentWeather.weather, weather.count > 0,
            let wind = currentWeather.wind,
            let main = currentWeather.main {
-           homeModel =  HomeModel(placeName: name,
-                             temperature: main.temp ?? 0.0,
-                             weatherIcon: weather[0].icon ?? "",
-                             pressure: main.pressure ?? 0.0,
-                             humidity: main.humidity ?? 0.0,
-                             environment: weather[0].main ?? "",
-                             windSpeed: wind.speed ?? 0.0,
-                             sunrise: currentWeather.sys?.sunrise ?? 0.0,
-                             sunset: currentWeather.sys?.sunset ?? 0.0)
+            homeModel =  HomeModel(placeName: name,
+                                   temperature: main.temp ?? 0.0,
+                                   weatherIcon: weather[0].icon ?? "",
+                                   pressure: main.pressure ?? 0.0,
+                                   humidity: main.humidity ?? 0.0,
+                                   environment: weather[0].main ?? "",
+                                   windSpeed: wind.speed ?? 0.0,
+                                   sunrise: currentWeather.sys?.sunrise ?? 0.0,
+                                   sunset: currentWeather.sys?.sunset ?? 0.0)
             print(main.temp ?? 0.0)
         }
     }

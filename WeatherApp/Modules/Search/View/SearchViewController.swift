@@ -13,12 +13,12 @@ class SearchViewController: UIViewController, CoordinatorBoard {
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var searchTableView: UITableView!
     
-    var searchedCountry: [City] = []
+    var searchedCity: [City] = []
     let searchController = UISearchController()
     
     var viewModel: SearchViewModel?
     var dispatchWorkItem: DispatchWorkItem?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
@@ -48,12 +48,12 @@ class SearchViewController: UIViewController, CoordinatorBoard {
     private func fetchLocation(searchText: String) {
         dispatchWorkItem?.cancel()
         let requestWorkItem = DispatchWorkItem {[weak self] in
-
+            
             self?.viewModel?.searchLocation(text: searchText, onCompletion: { result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(_):
-                        self?.searchedCountry = self?.viewModel?.cities ?? []
+                        self?.searchedCity = self?.viewModel?.cities ?? []
                         self?.searchTableView.reloadData()
                     case .failure(_):
                         // Show Errorr Alert
@@ -70,31 +70,31 @@ class SearchViewController: UIViewController, CoordinatorBoard {
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return searchedCountry.count
+        return searchedCity.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = "\(searchedCountry[indexPath.row].name) \(searchedCountry[indexPath.row].state ?? "") \( searchedCountry[indexPath.row].country ?? "")"
+        cell.textLabel?.text = "\(searchedCity[indexPath.row].name) \(searchedCity[indexPath.row].state ?? "") \( searchedCity[indexPath.row].country ?? "")"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCountry = searchedCountry[indexPath.row]
-        print(selectedCountry)
-        viewModel?.searchCoordinator?.citySelected(city: selectedCountry)
+        let selectedCity = searchedCity[indexPath.row]
+        print(selectedCity)
+        viewModel?.searchCoordinator?.citySelected(city: selectedCity)
         self.searchBar.searchTextField.endEditing(true)
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            fetchLocation(searchText: searchText)
-        }
+        fetchLocation(searchText: searchText)
+    }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.text = ""
-            searchTableView.reloadData()
-        }
+        searchBar.text = ""
+        searchTableView.reloadData()
+    }
 }
 
