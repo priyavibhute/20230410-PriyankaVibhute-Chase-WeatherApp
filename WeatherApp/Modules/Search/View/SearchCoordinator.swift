@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol SearchCoordinatorProtocol {
-    func citySelected(city: City)
+    func selectedCity(city: City)
 }
 
 class SearchCoordinator: WeatherAppCoordinatorProtocol, SearchCoordinatorProtocol {
@@ -27,7 +27,7 @@ class SearchCoordinator: WeatherAppCoordinatorProtocol, SearchCoordinatorProtoco
         self.navigationController.pushViewController(searchViewController, animated: false)
     }
     
-    func citySelected(city: City) {
+    func selectedCity(city: City) {
         if let homeCoordinator = parentView as? HomeCoordinator {
             homeCoordinator.fetchSelectedWeatherData(city: city)
             navigationController.popViewController(animated: true)

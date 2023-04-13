@@ -13,6 +13,8 @@ protocol WeatherServiceProtocol {
                         completion: @escaping (Result<HomeModel, NetworkError>) -> Void)
 }
 
+//Added this layer to keep higher level modules independent of lower level modules
+
 class WeatherService: BaseService, WeatherServiceProtocol {
     var homeModel: HomeModel?
     let appService = AppServices.weatherData
@@ -56,7 +58,6 @@ class WeatherService: BaseService, WeatherServiceProtocol {
                                    windSpeed: wind.speed ?? 0.0,
                                    sunrise: currentWeather.sys?.sunrise ?? 0.0,
                                    sunset: currentWeather.sys?.sunset ?? 0.0)
-            print(main.temp ?? 0.0)
         }
     }
 }

@@ -82,7 +82,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = searchedCity[indexPath.row]
         print(selectedCity)
-        viewModel?.searchCoordinator?.citySelected(city: selectedCity)
+        viewModel?.searchCoordinator?.selectedCity(city: selectedCity)
         self.searchBar.searchTextField.endEditing(true)
     }
 }
